@@ -18,10 +18,11 @@ People data source
 ### Optional
 
 - `email` (String) People email address
-- `github_username` (String) GitHub username
 - `id` (String) People user identifier
 - `username` (String) People username
 
 ### Read-Only
 
+- `github_node_id` (String) GitHub node ID
+- `github_username` (String) GitHub username
 - `mozilliansorg_groups` (List of String) Mozilliansorg groups the user is in
