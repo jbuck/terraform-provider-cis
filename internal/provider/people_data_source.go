@@ -136,13 +136,15 @@ func (d *PeopleDataSource) Read(ctx context.Context, req datasource.ReadRequest,
 		}
 	}
 
-	tflog.Info(ctx, fmt.Sprintf("Read data from API %#v", person))
+	tflog.Info(ctx, fmt.Sprintf("Read data from API %#v", person), map[string]any{"email": data.Email.ValueString()})
 
 	// For the purposes of this example code, hardcoding a response value to
 	// save into the Terraform state.
 	data.Id = types.StringValue(person.UserID.Value)
 
-	data.GitHub_Node_Id = types.StringValue(person.Identities.GithubIDV4.Value)
+	if person.Identities.GithubIDV4 != nil {
+		data.GitHub_Node_Id = types.StringValue(person.Identities.GithubIDV4.Value)
+	}
 	data.GitHub_Username = types.StringValue(person.Usernames.Values.GitHubUsername)
 	data.Mozilliansorg_Groups, diags = types.ListValueFrom(ctx, types.StringType, person.AccessInformation.Mozilliansorg.List)
 	for _, d := range diags {
